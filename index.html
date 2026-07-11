@@ -4,27 +4,121 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SkillNova</title>
+  <title>SkillNova - Collaborative AI Workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <div class="card">
-    <h1>Welcome to SkillNova</h1>
-    <p>This is a starter page for your collaborative project.</p>
-    <p>Open this repository in a browser and start building.</p>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-container">
+          <div class="logo-icon">✨</div>
+          <span class="logo-text">SkillNova</span>
+        </div>
+        <button id="new-chat-btn" class="btn btn-primary btn-sm">
+          <span>+ New Chat</span>
+        </button>
+      </div>
 
-    <form id="gemini-form" class="agent-panel">
-      <label for="api-key">Gemini API key</label>
-      <input id="api-key" type="password" placeholder="Paste your Google AI Studio key" />
+      <div class="sidebar-section">
+        <div class="section-label">Settings</div>
+        <div class="settings-box">
+          <label for="api-key" class="field-label">Gemini API Key</label>
+          <div class="api-input-wrapper">
+            <input id="api-key" type="password" placeholder="Paste your AI Studio key" />
+            <button id="toggle-api-key" class="icon-btn" type="button" title="Toggle Visibility">👁️</button>
+          </div>
+          <span class="settings-hint">Stored locally in your browser</span>
+        </div>
+      </div>
 
-      <label for="prompt">Ask your agent</label>
-      <textarea id="prompt" rows="5" placeholder="Ask Gemini to help with planning, coding, or research"></textarea>
+      <div class="sidebar-section flex-grow">
+        <div class="section-label">Conversations</div>
+        <div id="chat-list" class="chat-threads-list">
+          <!-- Dynamically populated threads -->
+          <div class="empty-threads">No chats yet</div>
+        </div>
+      </div>
 
-      <button type="submit">Ask Gemini</button>
-      <p id="gemini-status" class="status">Your key stays in this browser session.</p>
-      <pre id="gemini-output">No answer yet.</pre>
-    </form>
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar">👨‍💻</div>
+          <div class="user-info">
+            <div class="username">Developer Workspace</div>
+            <div class="status-indicator">Connected</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- Chat Header -->
+      <header class="workspace-header">
+        <div class="active-thread-info">
+          <h2 id="active-thread-title">Collaborative Agent</h2>
+          <span class="badge">Gemini 1.5 Flash</span>
+        </div>
+        <div class="workspace-actions">
+          <button id="clear-current-chat" class="btn btn-secondary btn-sm" title="Clear current chat messages">Clear Chat</button>
+        </div>
+      </header>
+
+      <!-- Chat Screen -->
+      <div class="chat-container">
+        <!-- Message Container -->
+        <div id="messages-container" class="messages-area">
+          <!-- Welcome Screen (shown when no messages) -->
+          <div id="welcome-screen" class="welcome-screen">
+            <div class="welcome-badge">SKILLNOVA WORKSPACE</div>
+            <h1>How can I help you build today?</h1>
+            <p class="welcome-subtitle">Ask Gemini to help with planning, drafting code, writing tests, or architectural design.</p>
+            
+            <div class="suggestion-grid">
+              <button class="suggestion-card" data-prompt="Explain the structure of this python project and suggest typical next steps.">
+                <h3>🔍 Explore Project</h3>
+                <p>Explain python project structure & suggest next steps</p>
+              </button>
+              <button class="suggestion-card" data-prompt="Write a pytest test suite for the package in skillnova/main.py.">
+                <h3>🧪 Generate Test Suite</h3>
+                <p>Write pytests for the skillnova/main.py functions</p>
+              </button>
+              <button class="suggestion-card" data-prompt="Create an interactive command-line interface (CLI) client for Skillnova in skillnova/cli.py.">
+                <h3>💻 Create CLI Client</h3>
+                <p>Implement a user-friendly CLI package module</p>
+              </button>
+              <button class="suggestion-card" data-prompt="Draft a plan to connect this frontend UI to run local terminal commands safely.">
+                <h3>📋 Architect Execution Plan</h3>
+                <p>Design a safe system to run commands from web UI</p>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Panel -->
+        <div class="input-panel">
+          <form id="gemini-form" class="chat-form">
+            <div class="textarea-wrapper">
+              <textarea id="prompt" rows="1" placeholder="Type a message or select a suggestion..."></textarea>
+              <button type="submit" id="send-btn" class="send-btn" title="Send message">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+              </button>
+            </div>
+            <div class="input-footer">
+              <span id="gemini-status" class="status-text">Ready to code.</span>
+              <span class="shortcut-tip">Press Enter to send</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
   </div>
   <script type="module" src="script.js"></script>
 </body>
