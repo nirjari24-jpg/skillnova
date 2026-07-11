@@ -18,3 +18,7 @@ dist/
 .vscode/
 .idea/
 *.swp
+
+# Node/npm local artifacts
+node_modules/
+local-node/
