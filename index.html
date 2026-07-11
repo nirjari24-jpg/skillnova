@@ -4,27 +4,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SkillNova</title>
+  <title>SkillNova - Agent Dashboard</title>
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <div class="card">
-    <h1>Welcome to SkillNova</h1>
-    <p>This is a starter page for your collaborative project.</p>
-    <p>Open this repository in a browser and start building.</p>
+  <div class="dashboard-container">
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+      <div class="logo-area">
+        <span class="logo-icon">✦</span>
+        <div class="logo-text">
+          <h1>SkillNova</h1>
+          <span class="logo-sub">Agentic Workspace Connection</span>
+        </div>
+      </div>
+      <div class="header-controls">
+        <div class="api-key-container">
+          <input id="api-key" type="password" placeholder="Enter Google AI Studio Key" />
+        </div>
+        <button id="clear-chat-btn" class="secondary-btn" title="Clear conversation history">Clear Chat</button>
+      </div>
+    </header>
 
-    <form id="gemini-form" class="agent-panel">
-      <label for="api-key">Gemini API key</label>
-      <input id="api-key" type="password" placeholder="Paste your Google AI Studio key" />
+    <!-- Main Workspace Area -->
+    <main class="workspace-layout">
+      <!-- Left Panel: Chat Panel -->
+      <section class="panel chat-panel" aria-label="Agent Chat">
+        <div class="panel-header">
+          <h2>Agent Workspace Chat</h2>
+          <span id="agent-status" class="status-indicator idle">Idle</span>
+        </div>
+        <div id="chat-messages" class="chat-messages-area">
+          <div class="message system-message">
+            <div class="message-content">
+              Welcome back! Provide your API key above and start chatting with the agent to examine, create, or test files in your VS Code workspace.
+            </div>
+          </div>
+        </div>
+        <form id="gemini-form" class="composer-form">
+          <div class="composer-wrapper">
+            <textarea id="prompt" placeholder="Ask Gemini to write tests, edit files, or search the workspace..." required rows="1"></textarea>
+            <button type="submit" id="send-btn" class="primary-btn">
+              <span class="btn-text">Ask Agent</span>
+            </button>
+          </div>
+        </form>
+      </section>
 
-      <label for="prompt">Ask your agent</label>
-      <textarea id="prompt" rows="5" placeholder="Ask Gemini to help with planning, coding, or research"></textarea>
-
-      <button type="submit">Ask Gemini</button>
-      <p id="gemini-status" class="status">Your key stays in this browser session.</p>
-      <pre id="gemini-output">No answer yet.</pre>
-    </form>
+      <!-- Right Panel: Live Workspace Log -->
+      <section class="panel logs-panel" aria-label="Workspace Live Log">
+        <div class="panel-header">
+          <h2>Workspace Activity Feed</h2>
+          <button id="clear-logs-btn" class="icon-btn" title="Clear log trace">Clear Logs</button>
+        </div>
+        <div id="logs-area" class="logs-content-area">
+          <div class="log-entry system">
+            <span class="log-time">System</span>
+            <span class="log-message">Workspace active at C:\Users\nirja\.gemini\antigravity\worktrees\skillnova\connect-vscode-editor</span>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
   <script type="module" src="script.js"></script>
 </body>
