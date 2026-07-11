@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillNova</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="card">
+    <h1>Welcome to SkillNova</h1>
+    <p>This is a starter page for your collaborative project.</p>
+    <p>Open this repository in a browser and start building.</p>
+
+    <form id="gemini-form" class="agent-panel">
+      <label for="api-key">Gemini API key</label>
+      <input id="api-key" type="password" placeholder="Paste your Google AI Studio key" />
+
+      <label for="prompt">Ask your agent</label>
+      <textarea id="prompt" rows="5" placeholder="Ask Gemini to help with planning, coding, or research"></textarea>
+
+      <button type="submit">Ask Gemini</button>
+      <p id="gemini-status" class="status">Your key stays in this browser session.</p>
+      <pre id="gemini-output">No answer yet.</pre>
+    </form>
+  </div>
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>
