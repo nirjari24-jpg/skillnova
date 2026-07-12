@@ -25,18 +25,6 @@
         </button>
       </div>
 
-      <div class="sidebar-section">
-        <div class="section-label">Settings</div>
-        <div class="settings-box">
-          <label for="api-key" class="field-label">Gemini API Key</label>
-          <div class="api-input-wrapper">
-            <input id="api-key" type="password" placeholder="Paste your AI Studio key" />
-            <button id="toggle-api-key" class="icon-btn" type="button" title="Toggle Visibility">👁️</button>
-          </div>
-          <span class="settings-hint">Stored locally in your browser</span>
-        </div>
-      </div>
-
       <div class="sidebar-section flex-grow">
         <div class="section-label">Conversations</div>
         <div id="chat-list" class="chat-threads-list">
@@ -61,8 +49,8 @@
       <!-- Chat Header -->
       <header class="workspace-header">
         <div class="active-thread-info">
-          <h2 id="active-thread-title">Collaborative Agent</h2>
-          <span class="badge">Gemini 1.5 Flash</span>
+          <h2 id="active-thread-title">NOVA Assistant</h2>
+          <span class="badge">NOVA</span>
         </div>
         <div class="workspace-actions">
           <button id="clear-current-chat" class="btn btn-secondary btn-sm" title="Clear current chat messages">Clear Chat</button>
@@ -77,7 +65,7 @@
           <div id="welcome-screen" class="welcome-screen">
             <div class="welcome-badge">SKILLNOVA WORKSPACE</div>
             <h1>How can I help you build today?</h1>
-            <p class="welcome-subtitle">Ask Gemini to help with planning, drafting code, writing tests, or architectural design.</p>
+            <p class="welcome-subtitle">Chat with NOVA, your friendly personal AI helper for planning, coding, tests, and design.</p>
             
             <div class="suggestion-grid">
               <button class="suggestion-card" data-prompt="Explain the structure of this python project and suggest typical next steps.">
@@ -102,7 +90,7 @@
 
         <!-- Input Panel -->
         <div class="input-panel">
-          <form id="gemini-form" class="chat-form">
+          <form id="nova-form" class="chat-form">
             <div class="textarea-wrapper">
               <textarea id="prompt" rows="1" placeholder="Type a message or select a suggestion..."></textarea>
               <button type="submit" id="send-btn" class="send-btn" title="Send message">
@@ -112,7 +100,7 @@
               </button>
             </div>
             <div class="input-footer">
-              <span id="gemini-status" class="status-text">Ready to code.</span>
+              <span id="nova-status" class="status-text">Ready to chat.</span>
               <span class="shortcut-tip">Press Enter to send</span>
             </div>
           </form>

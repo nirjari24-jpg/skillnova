@@ -1,13 +1,9 @@
-import { buildGeminiRequest, extractGeminiText } from './gemini-agent.js';
-
 document.addEventListener('DOMContentLoaded', () => {
   // Elements
-  const apiKeyInput = document.querySelector('#api-key');
-  const toggleApiKeyBtn = document.querySelector('#toggle-api-key');
   const promptInput = document.querySelector('#prompt');
   const sendBtn = document.querySelector('#send-btn');
-  const form = document.querySelector('#gemini-form');
-  const statusText = document.querySelector('#gemini-status');
+  const form = document.querySelector('#nova-form');
+  const statusText = document.querySelector('#nova-status');
   const messagesContainer = document.querySelector('#messages-container');
   const welcomeScreen = document.querySelector('#welcome-screen');
   const newChatBtn = document.querySelector('#new-chat-btn');
@@ -23,12 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
   init();
 
   function init() {
-    // Load settings
-    const savedKey = localStorage.getItem('skillnova_api_key');
-    if (savedKey) {
-      apiKeyInput.value = savedKey;
-    }
-
     // Load Chat threads
     try {
       threads = JSON.parse(localStorage.getItem('skillnova_threads')) || [];
@@ -54,22 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setupEventListeners() {
-    // Toggle API Key visibility
-    toggleApiKeyBtn.addEventListener('click', () => {
-      if (apiKeyInput.type === 'password') {
-        apiKeyInput.type = 'text';
-        toggleApiKeyBtn.textContent = '🙈';
-      } else {
-        apiKeyInput.type = 'password';
-        toggleApiKeyBtn.textContent = '👁️';
-      }
-    });
-
-    // Save API key on change
-    apiKeyInput.addEventListener('input', () => {
-      localStorage.setItem('skillnova_api_key', apiKeyInput.value.trim());
-    });
-
     // Auto-resize textarea
     promptInput.addEventListener('input', () => {
       promptInput.style.height = 'auto';
@@ -84,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Form submit for asking Gemini
+    // Form submit for asking NOVA
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       handleSend();
@@ -270,15 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Handle Send action
   async function handleSend() {
-    const apiKey = apiKeyInput.value.trim();
     const prompt = promptInput.value.trim();
-
-    if (!apiKey) {
-      statusText.textContent = 'Error: Please configure your API Key.';
-      statusText.classList.remove('working');
-      apiKeyInput.focus();
-      return;
-    }
 
     if (!prompt) return;
 
@@ -301,51 +267,56 @@ document.addEventListener('DOMContentLoaded', () => {
     promptInput.style.height = 'auto';
 
     // Set Loading state
-    statusText.textContent = 'Thinking...';
+    statusText.textContent = 'NOVA is thinking...';
     statusText.classList.add('working');
     promptInput.disabled = true;
     sendBtn.disabled = true;
 
-    try {
-      const response = await fetch('/api/gemini', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt, apiKey }),
-      });
-      const data = await response.json();
+    const responseText = novaResponse(prompt);
 
-      if (!response.ok) {
-        throw new Error(data?.error || 'Failed to query model.');
-      }
+    // Add assistant message
+    activeThread.messages.push({ role: 'assistant', text: responseText });
+    saveThreads();
+    renderActiveThread();
+    statusText.textContent = 'Ready.';
 
-      const responseText = data.text || 'No response returned.';
-
-      // Add assistant message
-      activeThread.messages.push({ role: 'assistant', text: responseText });
-      saveThreads();
-      renderActiveThread();
-      statusText.textContent = 'Ready.';
-    } catch (error) {
-      console.error(error);
-      activeThread.messages.push({ 
-        role: 'assistant', 
-        text: `⚠️ **Error querying Gemini API:**\n\n${error.message || 'Unable to connect to the backend server.'}`
-      });
-      saveThreads();
-      renderActiveThread();
-      statusText.textContent = 'Failed to connect.';
-    } finally {
-      statusText.classList.remove('working');
-      promptInput.disabled = false;
-      sendBtn.disabled = false;
-      promptInput.focus();
-    }
+    statusText.classList.remove('working');
+    promptInput.disabled = false;
+    sendBtn.disabled = false;
+    promptInput.focus();
   }
 
   function scrollToBottom() {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  function novaResponse(prompt) {
+    const lowerPrompt = prompt.toLowerCase();
+    if (!prompt.trim()) {
+      return "Hi there! I'm NOVA, your friendly personal AI assistant. How can I help you today?";
+    }
+
+    if (/(hello|hi|hey|greetings|good morning|good afternoon|good evening)/i.test(lowerPrompt)) {
+      return "Hello! I'm NOVA, your friendly assistant. I'm here to help you build, learn, and ship great code. What would you like to do next?";
+    }
+
+    if (/(project|structure|repo|folder|module)/i.test(lowerPrompt)) {
+      return "I can help you understand your project structure, suggest next steps, or improve your code. Tell me which part you'd like to explore.";
+    }
+
+    if (/(test|pytest|unit test|suite)/i.test(lowerPrompt)) {
+      return "I can help you write tests, verify behavior, and explain what your code should do. Share the function or module you'd like to cover.";
+    }
+
+    if (/(code|function|python|javascript|cli|command)/i.test(lowerPrompt)) {
+      return "I can help you write code, improve functions, or build a CLI. Describe the feature you want and I'll suggest the next steps.";
+    }
+
+    if (/(help|assist)/i.test(lowerPrompt)) {
+      return "Absolutely! I'm NOVA, your friendly helper. Ask me anything about your project, code, testing, or design and I'll guide you through it.";
+    }
+
+    return "Thanks for asking! I'm NOVA, your friendly AI helper. I can assist with planning, coding, tests, and design. Tell me more about what you'd like to do, and I'll help you get there.";
   }
 
   // Light regex-based markdown parser

@@ -1,10 +1,8 @@
 import json
 import os
-import urllib.request
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent
 
@@ -22,7 +20,7 @@ class SkillNovaHandler(BaseHTTPRequestHandler):
         self._serve_file(self.path.lstrip("/"))
 
     def do_POST(self):
-        if self.path != "/api/gemini":
+        if self.path != "/api/nova":
             self._send_json({"error": "Not found"}, status=HTTPStatus.NOT_FOUND)
             return
 
@@ -35,32 +33,12 @@ class SkillNovaHandler(BaseHTTPRequestHandler):
             return
 
         prompt = (body.get("prompt") or "").strip()
-        api_key = (body.get("apiKey") or "").strip()
 
-        if not prompt or not api_key:
-            self._send_json({"error": "Both prompt and apiKey are required"}, status=HTTPStatus.BAD_REQUEST)
+        if not prompt:
+            self._send_json({"error": "Prompt is required"}, status=HTTPStatus.BAD_REQUEST)
             return
 
-        try:
-            request = urllib.request.Request(
-                f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}",
-                data=json.dumps({
-                    "contents": [{"role": "user", "parts": [{"text": prompt}]}],
-                }).encode("utf-8"),
-                headers={"Content-Type": "application/json"},
-                method="POST",
-            )
-            with urllib.request.urlopen(request, timeout=30) as response:
-                data = json.loads(response.read().decode("utf-8"))
-        except Exception as exc:
-            self._send_json({"error": str(exc)}, status=HTTPStatus.BAD_GATEWAY)
-            return
-
-        candidates = data.get("candidates", [])
-        first_candidate = candidates[0] if candidates else {}
-        first_part = first_candidate.get("content", {}).get("parts", [{}])[0]
-        response_text = first_part.get("text") or "No response was returned by Gemini."
-
+        response_text = nova_response(prompt)
         self._send_json({"text": response_text})
 
     def _serve_file(self, relative_path: str):
@@ -99,6 +77,37 @@ class SkillNovaHandler(BaseHTTPRequestHandler):
 
     def log_message(self, format, *args):
         return
+
+
+def nova_response(prompt: str) -> str:
+    lower_prompt = prompt.lower()
+    if not prompt.strip():
+        return "Hi there! I'm NOVA, your friendly personal AI assistant. How can I help you today?"
+
+    if any(greeting in lower_prompt for greeting in ["hello", "hi", "hey", "greetings", "good morning", "good afternoon", "good evening"]):
+        return "Hello! I'm NOVA, your friendly assistant. I'm here to help you build, learn, and ship great code. What would you like to do next?"
+
+    if any(keyword in lower_prompt for keyword in ["project", "structure", "repo", "folder", "module"]):
+        return "I can help you understand your project structure, suggest next steps, or improve your code. Tell me which part you'd like to explore."
+
+    if any(keyword in lower_prompt for keyword in ["test", "pytest", "unit test", "suite"]):
+        return "I can help you write tests, verify behavior, and explain what your code should do. Share the function or module you'd like to cover."
+
+    if any(keyword in lower_prompt for keyword in ["code", "function", "python", "javascript", "cli", "command"]):
+        return "I can help you write code, improve functions, or build a CLI. Describe the feature you want and I'll suggest the next steps."
+
+    if "help" in lower_prompt or "assist" in lower_prompt:
+        return "Absolutely! I'm NOVA, your friendly helper. Ask me anything about your project, code, testing, or design and I'll guide you through it."
+
+    return (
+        "Thanks for asking! I'm NOVA, your friendly AI helper. "
+        "I can assist with planning, coding, tests, and design. "
+        "Tell me more about what you'd like to do, and I'll help you get there."
+    )
+
+
+def log_message(self, format, *args):
+    return
 
 
 if __name__ == "__main__":
