@@ -1,24 +1,27 @@
 {
-  "name": "gemini-agent-system",
+  "name": "skillnova",
   "version": "1.0.0",
-  "description": "A conversational AI agent system using Google Gemini",
+  "description": "Skillnova project with Python server and Gemini AI Agent System",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "python server.py",
+    "start:agent": "node dist/index.js",
+    "build:agent": "tsc",
+    "dev:agent": "ts-node src/index.ts"
   },
   "keywords": [
     "gemini",
     "ai",
     "agent",
-    "generative"
+    "generative",
+    "skillnova"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@google/generative-ai": "^0.3.0"
+    "@google/generative-ai": "^0.3.0",
+    "ja": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

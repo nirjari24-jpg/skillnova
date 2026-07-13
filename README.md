@@ -1,97 +1,108 @@
-# Gemini AI Agent System
+# Skillnova - AI Workspace & Python Backend
 
-A Node.js/TypeScript-based conversational AI agent system powered by Google Gemini.
+Welcome to **Skillnova**, a unified project combining a Python backend and web server with a Node.js/TypeScript-based Gemini AI Agent System.
 
-## Features
+## Project Structure
 
-- 🤖 Conversational AI agent using Google Gemini
-- 💬 Multi-turn conversation support with history tracking
-- 📝 Built with TypeScript for type safety
-- 🚀 Easy to integrate into larger applications
+- **Frontend & Web Server (Python)**: A simple HTTP server (`server.py`) that serves the workspace interface (`index.html`, `script.js`, `styles.css`).
+- **Gemini AI Agent System (Node.js/TypeScript)**: A conversational AI agent (`src/gemini-agent.ts`) powered by Google Gemini.
+- **Skillnova Core (Python Package)**: A reusable Python package located in the `skillnova` directory.
 
-## Prerequisites
+---
 
-- Node.js 16+ and npm
-- Google Generative AI API key (get one at [Google AI Studio](https://makersuite.google.com/app/apikey))
+## 🤖 Gemini AI Agent System (Node.js/TypeScript)
 
-## Installation
+### Features
 
-1. **Clone or setup the project**
+- Conversational AI agent using Google Gemini.
+- Multi-turn conversation support with history tracking.
+- Type safety with TypeScript.
+
+### Prerequisites
+
+- Node.js 16+ and npm.
+- Google Generative AI API key (get one at [Google AI Studio](https://makersuite.google.com/app/apikey)).
+
+### Installation & Setup
+
+1. **Install Node.js dependencies:**
    ```bash
-   cd skillnova
    npm install
    ```
 
-2. **Set your API key**
+2. **Set your API key:**
+   - **Bash/zsh:**
+     ```bash
+     export GEMINI_API_KEY=your_api_key_here
+     ```
+   - **Windows (PowerShell):**
+     ```powershell
+     $env:GEMINI_API_KEY="your_api_key_here"
+     ```
+
+3. **Build the agent:**
    ```bash
-   export GEMINI_API_KEY=your_api_key_here
-   ```
-   On Windows (PowerShell):
-   ```powershell
-   $env:GEMINI_API_KEY="your_api_key_here"
+   npm run build:agent
    ```
 
-3. **Build the project**
+### Usage
+
+- **Run Interactive Chat CLI:**
+  ```bash
+  npm run start:agent
+  ```
+- **Run in Development Mode:**
+  ```bash
+  npm run dev:agent
+  ```
+
+---
+
+## 🐍 Python Project & Server
+
+### Prerequisites
+
+- Python 3.11+
+
+### Installation & Setup
+
+1. **Create and activate a virtual environment:**
+   - **PowerShell:**
+     ```powershell
+     python -m venv .venv
+     .\.venv\Scripts\Activate.ps1
+     ```
+   - **Bash/zsh:**
+     ```bash
+     python -m venv .venv
+     source .venv/bin/activate
+     ```
+
+2. **Install Python dependencies:**
    ```bash
-   npm run build
+   python -m pip install -U pip
+   python -m pip install -r requirements.txt
    ```
 
-## Usage
+### Running the Server
 
-### Run Interactive Chat
-
+Start the Python web server (which serves the frontend dashboard at `http://localhost:8001`):
 ```bash
 npm start
 ```
-
-This will launch an interactive chat interface where you can converse with the Gemini agent.
-
-### Use as a Library
-
-```typescript
-import { GeminiAgent } from "./src/gemini-agent";
-
-const agent = new GeminiAgent({
-  apiKey: process.env.GEMINI_API_KEY || "",
-  model: "gemini-pro",
-});
-
-const response = await agent.chat("Hello, how are you?");
-console.log(response);
-```
-
-## API Reference
-
-### GeminiAgent
-
-#### Constructor
-
-```typescript
-new GeminiAgent(config: AgentConfig)
-```
-
-**Parameters:**
-- `config.apiKey` (string): Google Generative AI API key (required)
-- `config.model` (string): Model name (default: "gemini-pro")
-
-#### Methods
-
-- `chat(userMessage: string): Promise<string>` - Send a message and get a response
-- `getHistory(): Message[]` - Get conversation history
-- `clearHistory(): void` - Clear conversation history
-
-## Development
-
+*Or run directly:*
 ```bash
-# Run in development mode with ts-node
-npm run dev
-
-# Build TypeScript
-npm run build
-
-# Start compiled version
-npm start
+python server.py
 ```
+
+### Running Tests
+
+Run the test suite using pytest:
+```bash
+python -m pytest
+```
+
+---
 
 ## Contributors
 
@@ -99,5 +110,4 @@ See the list of [contributors](CONTRIBUTORS.md) who participated in this project
 
 ## License
 
-MIT
-
+This project is licensed under the MIT License.

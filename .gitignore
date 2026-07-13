@@ -1,4 +1,26 @@
+# Node/npm local artifacts
 node_modules/
+local-node/
 dist/
 *.log
 .env
+
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Packaging
+build/
+*.egg-info/
+
+# Test output
+.pytest_cache/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
