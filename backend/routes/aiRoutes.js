@@ -5,5 +5,6 @@ const aiController = require('../controllers/aiController');
 router.post('/analyze', aiController.analyzeSkills);
 router.post('/chat', aiController.chatAssistant);
 router.post('/interview', aiController.mockInterview);
+router.post('/roadmap', aiController.generateRoadmap);
 
 module.exports = router;
