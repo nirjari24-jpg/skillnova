@@ -1,3 +1,10 @@
+# Node/npm local artifacts
+node_modules/
+local-node/
+dist/
+*.log
+.env
+
 # Virtual environment
 .venv/
 
@@ -8,7 +15,6 @@ __pycache__/
 
 # Packaging
 build/
-dist/
 *.egg-info/
 
 # Test output
@@ -18,7 +24,3 @@ dist/
 .vscode/
 .idea/
 *.swp
-
-# Node/npm local artifacts
-node_modules/
-local-node/

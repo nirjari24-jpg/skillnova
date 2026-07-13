@@ -1,12 +1,31 @@
 {
   "name": "skillnova",
   "version": "1.0.0",
-  "private": true,
+  "description": "Skillnova project with Python server and Gemini AI Agent System",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "start": "python server.py"
+    "start": "python server.py",
+    "start:agent": "node dist/index.js",
+    "build:agent": "tsc",
+    "dev:agent": "ts-node src/index.ts"
   },
+  "keywords": [
+    "gemini",
+    "ai",
+    "agent",
+    "generative",
+    "skillnova"
+  ],
+  "author": "",
+  "license": "MIT",
   "dependencies": {
+    "@google/generative-ai": "^0.3.0",
     "ja": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
   }
 }
