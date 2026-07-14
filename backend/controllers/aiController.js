@@ -19,6 +19,38 @@ exports.analyzeSkills = async (req, res) => {
   }
 };
 
+exports.discoverCareers = async (req, res) => {
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const { profile, skills } = req.body;
+    
+    // In production, we would use the Gemini API to analyze this against our career library.
+    // Mocking an intelligent response based on the "Python + Statistics + SQL" example.
+    res.json({
+      matches: [
+        {
+          careerId: 1, // Data Scientist
+          title: "Data Scientist",
+          matchPercentage: 92,
+          why: "Your strong background in Python, SQL, and Statistics makes you a perfect fit for uncovering data insights.",
+          missingSkills: ["Machine Learning", "Advanced Calculus"],
+          nextSteps: "Start learning foundational Machine Learning algorithms and build a predictive model."
+        },
+        {
+          careerId: 3, // AI Engineer
+          title: "AI Engineer",
+          matchPercentage: 85,
+          why: "You already have the programming logic needed; you just need to dive deep into neural networks.",
+          missingSkills: ["Deep Learning", "TensorFlow", "Cloud Computing"],
+          nextSteps: "Take a Deep Learning specialization course."
+        }
+      ]
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.chatAssistant = async (req, res) => {
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });

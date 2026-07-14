@@ -7,17 +7,27 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#0f172a', // Slate 900
-        surface: 'rgba(30, 41, 59, 0.7)', // Slate 800 with opacity for glass
-        primary: '#38bdf8', // Light blue
-        secondary: '#818cf8', // Indigo
-        accent: '#2dd4bf', // Teal
+        background: '#040b16', // Deep navy/space black
+        surface: 'rgba(11, 23, 45, 0.7)', // Slightly lighter navy with opacity
+        primary: '#00f2fe', // Neon blue
+        secondary: '#4facfe', // Soft blue
+        accent: '#9b51e0', // Neon purple
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
-        'space-gradient': 'linear-gradient(to bottom right, #0f172a, #1e1b4b, #020617)',
+        'space-gradient': 'linear-gradient(135deg, #040b16 0%, #0d1b2a 100%)',
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        }
       }
     },
   },

@@ -22,13 +22,15 @@ app.use('/api/ai', aiRoutes);
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/skillnova';
 
+// Start server without requiring MongoDB to be strictly connected yet
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
   })
   .catch((error) => {
-    console.error('MongoDB connection error:', error);
+    console.warn('MongoDB connection warning (using mock data for now):', error.message);
   });
