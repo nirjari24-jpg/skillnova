@@ -6,6 +6,12 @@ import GlassCard from '../components/GlassCard';
 import CareerCard from '../components/CareerCard';
 import SkillGapBar from '../components/SkillGapBar';
 
+const demandColors = {
+  'Very High': 'text-emerald-400 bg-emerald-400/10 border-emerald-400/30',
+  'High': 'text-sky-400 bg-sky-400/10 border-sky-400/30',
+  'Medium-High': 'text-amber-400 bg-amber-400/10 border-amber-400/30',
+};
+
 export default function CareerExplorer() {
   const [careers, setCareers] = useState([]);
   const [aiLoading, setAiLoading] = useState(false);
@@ -16,8 +22,8 @@ export default function CareerExplorer() {
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/careers')
-      .then(res => setCareers(res.data))
-      .catch(err => console.error(err));
+      .then(res => { setCareers(res.data); setLoading(false); })
+      .catch(err => { console.error(err); setLoading(false); });
   }, []);
 
   const handleDiscover = async (e) => {
